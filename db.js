@@ -1,5 +1,4 @@
 const pg = require('pg')
-const { v4 } = require('uuid')
 
 pg.defaults.poolSize = 50;
 const client = new pg.Pool({
@@ -16,12 +15,16 @@ const statements = {
   '2': [],
   '3': [],
   '4': [],
-  // '5': [],
-  // '6': [],
-  // '7': []
+  '5': [],
+  '6': [],
+  '7': []
 }
 
+let statementsSize = 0
+
 const addStatement = ({ title, text, size }) =>  {
+  ++statementsSize
+
   statements[size].push(`('${text}', '${title}')`)
 }
 
@@ -34,9 +37,11 @@ const getStatements = (size) => {
     const values =  statements[key]
     if(values.length < missing) {
       toQuery[key] = values
+      statementsSize -= values.length
       break;
     }
 
+    statementsSize -= missing
     toQuery[key] = values.splice(0, missing)
   }
 
@@ -47,10 +52,6 @@ const getStatements = (size) => {
   }).join('')
 }
 
-const getStatementsSize = () =>
-  Object.keys(statements).reduce((a, key) => {
-    return a + statements[key].length
-  }, 0)
 
 
 const execute = (MAX_STATEMENTS_PER_INSERT) => new Promise((r, re) => {
@@ -58,8 +59,9 @@ const execute = (MAX_STATEMENTS_PER_INSERT) => new Promise((r, re) => {
   //console.log('olar', q)
   return client.query(q, (err, res) => {
     if(err) return re(err)
+    
     r(res)
   })  
 })
 
-module.exports = { addStatement, getStatementsSize, execute }
+module.exports = { addStatement, statementsSize: () => statementsSize > 0 ? statementsSize : 0, execute }
