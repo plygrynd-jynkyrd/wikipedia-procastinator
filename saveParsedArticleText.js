@@ -9,7 +9,7 @@ const cleanText = require('./cleanText')
 
 const SAVE_DOCUMENTS_DIR = '/var/elastic/'
 
-const wordsSaverOnDemand = require('./wordsSaverOnDemand')
+//const wordsSaverOnDemand = require('./wordsSaverOnDemand')
 
 
 
@@ -26,7 +26,9 @@ const parseArticle = ({ title, text }) => {
   
     if(finalText){
       
-      wordsSaverOnDemand.save({ title, text: finalText})
+//      wordsSaverOnDemand.save({ title, text: finalText})
+	 const filename = './elastic/' + (cleanText(title).replace('.','')).trim() + ".txt"
+	    fs.writeFile(filename, finalText, () => {})
     }
 
   // return Promise.resolve()

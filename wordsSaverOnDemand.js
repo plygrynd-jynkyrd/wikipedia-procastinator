@@ -1,7 +1,7 @@
 const db = require('./db')
 
-const MAX_STATEMENTS_PER_INSERT = 40000
-const MAX_DB_QUERIES = 10
+const MAX_STATEMENTS_PER_INSERT = 20000
+const MAX_DB_QUERIES = 100
 
 let queriesCount = 0
 // let seconds = 0

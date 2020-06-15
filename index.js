@@ -4,7 +4,7 @@ const wikiXmlReader = require('./wikiXmlReader')
 
 const SAVE_DOCUMENTS_DIR = '/var/elastic/'
 
-const pool = workerpool.pool('./saveParsedArticleText.js', { maxWorkers: 8, workerType: 'threads' });
+const pool = workerpool.pool('./saveParsedArticleText.js', { maxWorkers: 16, workerType: 'threads' });
 
 let seconds = 0
 setInterval(() => { seconds++ }, 1000)
@@ -26,7 +26,7 @@ const parseWikiPage = ({ title, text }) => {
     //   wordsSaverOnDemand.save({ title, text: finalText})
     // }
     
-    // process.stdout.clearLine(); 
+     process.stdout.clearLine(); 
     
     const { totalWorkers, busyWorkers, pendingTasks, activeTasks } = pool.stats()
     // process.stdin.write(`totalWorkers: ${totalWorkers}, busyWorkers: ${busyWorkers}, pendingTasks:${pendingTasks} activeTasks: ${activeTasks}, statementsSize: ${wordsSaverOnDemand.statementsSize()}, total: ${articleCount}, speed: ${(articleCount / seconds).toFixed(0)}\r`)
@@ -52,5 +52,5 @@ const parseWikiPage = ({ title, text }) => {
 
 }
 
-const filename = '/home/wagner/Downloads/nlwiki-20200520-pages-articles-multistream1.xml-p1p123351'
+const filename = '/home/ubuntu/wiki'
 wikiXmlReader.collectPages(filename, parseWikiPage)
