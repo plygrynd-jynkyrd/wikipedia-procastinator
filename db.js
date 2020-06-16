@@ -3,9 +3,9 @@ const pg = require('pg')
 pg.defaults.poolSize = 50;
 const client = new pg.Pool({
   user: 'postgres',
-  host: '10.0.2.50',
+  host: '172.17.0.3',
   database: 'dutchess',
-  password: 'password123',
+  password: '123',
   port: 5432,
   max: 1000, // set pool max size to 20
 })

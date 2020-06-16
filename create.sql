@@ -126,3 +126,5 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.words7
     OWNER to postgres;
+
+

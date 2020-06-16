@@ -52,5 +52,5 @@ const parseWikiPage = ({ title, text }) => {
 
 }
 
-const filename = '/home/ubuntu/wiki'
+const filename = '/home/wagner/Downloads/nlwiki-20200520-pages-articles-multistream1.xml-p1p123351'
 wikiXmlReader.collectPages(filename, parseWikiPage)
